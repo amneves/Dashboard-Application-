@@ -41,11 +41,11 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                 # TASK 3: Add a slider to select payload range
                                 dcc.RangeSlider(id='payload-slider',
                                 min=0, max=10000, step=1000,
-                                marks={0: '0 Kg',
-                                2500: '2500 Kg',
-                                5000: '5000 Kg',
-                                7500: '7500 Kg',
-                                10000: '10000 Kg'},
+                                marks={0: '0',
+                                2500: '2500',
+                                5000: '5000',
+                                7500: '7500',
+                                10000: '10000'},
                                 value=[min_payload, max_payload]),
 
                                 # TASK 4: Add a scatter chart to show the correlation between payload and launch success
@@ -64,7 +64,7 @@ def get_pie_chart(entered_value):
     return fig
   else:
     filtered_df = spacex_df[spacex_df['Launch Site'] == entered_value].groupby(['Launch Site', 'class']).size().reset_index(name = 'counts')
-    fig = px.pie(filtered_df, values='counts', names='class', title='{entered_value}: Total success launches')
+    fig = px.pie(filtered_df, values='counts', names='class', title = f'{entered_value}: Total success launches')
     return fig
 # TASK 4:
 # Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as output
@@ -73,14 +73,14 @@ Output(component_id='success-payload-scatter-chart', component_property='figure'
 [Input(component_id='site-dropdown', component_property='value'), 
 Input(component_id='payload-slider', component_property='value')])
 def get_scatter_chart(entered_site, entered_payload):
-  filtered_dff = spacex_df[(spacex_df['Payload Mass (kg)'] > entered_payload[0]) & (spacex_df['Payload Mass (kg)'] < entered_payload[1])]
+  filtered_dff = spacex_df[(spacex_df['Payload Mass (kg)'] > entered_payload[0]) and (spacex_df['Payload Mass (kg)'] < entered_payload[1])]
   if entered_site == 'ALL':
     fig = px.scatter(filtered_dff, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = 'Correlation between Payload and Sucess for all sites', 
     xaxis_title='Payload Mass (kg)', yaxis_title='Sucess')
     return fig
   else:
     filtered_dff2 = filtered_dff[filtered_dff['Launch Site'] == entered_site]
-    fig = px.scatter(filtered_dff2, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = '{entered_site}: Correlation between Payload and Sucess', 
+    fig = px.scatter(filtered_dff2, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = f'{entered_site}: Correlation between Payload and Sucess', 
     xaxis_title='Payload Mass (kg)', yaxis_title='Sucess')
     return fig
   
