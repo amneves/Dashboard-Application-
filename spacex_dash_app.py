@@ -77,6 +77,7 @@ def get_scatter_chart(entered_site, entered_payload):
   if entered_site == 'ALL':
     fig = px.scatter(filtered_dff, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = 'Correlation between Payload and Sucess for all sites', 
     xaxis_title='Payload Mass (kg)', yaxis_title='Sucess')
+    return fig
   else:
     filtered_dff2 = filtered_dff[filtered_dff['Launch Site'] == entered_site]
     fig = px.scatter(filtered_dff2, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = '{entered_site}: Correlation between Payload and Sucess', 
