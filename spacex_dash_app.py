@@ -59,7 +59,7 @@ Output(component_id='success-pie-chart', component_property='figure'),
 Input(component_id='site-dropdown', component_property='value'))
 def get_pie_chart(entered_value):
   filtered_df = spacex_df
-  if entered_site == 'ALL':
+  if entered_value == 'ALL':
     fig = px.pie(filtered_df, values='class', names='Launch Site', title='Total success launches')
     return fig
   else:
@@ -75,13 +75,11 @@ Input(component_id='payload-slider', component_property='value')])
 def get_scatter_chart(entered_site, entered_payload):
   filtered_dff = spacex_df[(spacex_df['Payload Mass (kg)'] > entered_payload[0]) & (spacex_df['Payload Mass (kg)'] < entered_payload[1])]
   if entered_site == 'ALL':
-    fig = px.scatter(filtered_dff, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = 'Correlation between Payload and Sucess for all sites', 
-    xaxis_title='Payload Mass (kg)', yaxis_title='Sucess')
+    fig = px.scatter(filtered_dff, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = 'Correlation between Payload and Sucess for all sites')
     return fig
   else:
     filtered_dff2 = filtered_dff[filtered_dff['Launch Site'] == entered_site]
-    fig = px.scatter(filtered_dff2, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = f'{entered_site}: Correlation between Payload and Sucess', 
-    xaxis_title='Payload Mass (kg)', yaxis_title='Sucess')
+    fig = px.scatter(filtered_dff2, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category',  title = f'{entered_site}: Correlation between Payload and Sucess')
     return fig
   
 # Run the app
